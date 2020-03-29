@@ -1,0 +1,72 @@
+1.3	#include<stdio.h>
+1.4	 
+1.5	int main()
+1.6	{
+1.7	    int bt[20],p[20],wt[20],tat[20],pr[20],i,j,n,total=0,pos,temp,avg_wt,avg_tat;
+1.8	    printf("Enter Total Number of Process:");
+1.9	    scanf("%d",&n);
+1.10	 
+1.11	    printf("\nEnter Burst Time and Priority\n");
+1.12	    for(i=0;i<n;i++)
+1.13	    {
+1.14	        printf("\nP[%d]\n",i+1);
+1.15	        printf("Burst Time:");
+1.16	        scanf("%d",&bt[i]);
+1.17	        printf("Priority:");
+1.18	        scanf("%d",&pr[i]);
+1.19	        p[i]=i+1;           //contains process number
+1.20	    }
+1.21	 
+1.22	    //sorting burst time, priority and process number in ascending order using selection sort
+1.23	    for(i=0;i<n;i++)
+1.24	    {
+1.25	        pos=i;
+1.26	        for(j=i+1;j<n;j++)
+1.27	        {
+1.28	            if(pr[j]<pr[pos])
+1.29	                pos=j;
+1.30	        }
+1.31	 
+1.32	        temp=pr[i];
+1.33	        pr[i]=pr[pos];
+1.34	        pr[pos]=temp;
+1.35	 
+1.36	        temp=bt[i];
+1.37	        bt[i]=bt[pos];
+1.38	        bt[pos]=temp;
+1.39	 
+1.40	        temp=p[i];
+1.41	        p[i]=p[pos];
+1.42	        p[pos]=temp;
+1.43	    }
+1.44	 
+1.45	    wt[0]=0;	//waiting time for first process is zero
+1.46	 
+1.47	    //calculate waiting time
+1.48	    for(i=1;i<n;i++)
+1.49	    {
+1.50	        wt[i]=0;
+1.51	        for(j=0;j<i;j++)
+1.52	            wt[i]+=bt[j];
+1.53	 
+1.54	        total+=wt[i];
+1.55	    }
+1.56	 
+1.57	    avg_wt=total/n;      //average waiting time
+1.58	    total=0;
+1.59	 
+1.60	    printf("\nProcess\t    Burst Time    \tWaiting Time\tTurnaround Time");
+1.61	    for(i=0;i<n;i++)
+1.62	    {
+1.63	        tat[i]=bt[i]+wt[i];     //calculate turnaround time
+1.64	        total+=tat[i];
+1.65	        printf("\nP[%d]\t\t  %d\t\t    %d\t\t\t%d",p[i],bt[i],wt[i],tat[i]);
+1.66	    }
+1.67	 
+1.68	    avg_tat=total/n;     //average turnaround time
+1.69	    printf("\n\nAverage Waiting Time=%d",avg_wt);
+1.70	    printf("\nAverage Turnaround Time=%d\n",avg_tat);
+1.71	 
+1.72		return 0;
+1.73	}
+
